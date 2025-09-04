@@ -1,10 +1,22 @@
 @import "tailwindcss";
 
-
 @custom-variant dark (&:where(.dark, .dark *));
 
-@layer base{
-    body {
-        @apply dark:bg-gray-800 bg-white
-    }
+@layer base {
+  body {
+    @apply dark:bg-gray-800 bg-white;
+  }
+}
+
+@utility container {
+  padding-inline: 10px;
+  margin-inline: auto;
+
+  @variant sm {
+    padding-inline: 1px;
+  }
+
+  @variant lg {
+    padding-inline: 120px;
+  }
 }
