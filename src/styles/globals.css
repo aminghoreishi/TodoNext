@@ -1,22 +1,28 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
-@layer base {
-  body {
-    @apply dark:bg-gray-800 bg-white;
-  }
+.or {
+  position: relative;
 }
 
-@utility container {
-  padding-inline: 10px;
-  margin-inline: auto;
+#nprogress .bar {
+  background: #ff5733 !important; /* 🔴 pick any color */
+}
 
-  @variant sm {
-    padding-inline: 1px;
-  }
-
-  @variant lg {
-    padding-inline: 120px;
-  }
+.or::after {
+content: "";
+width: 175px;
+height: 1px;
+position: absolute;
+background-color: gray;
+left: 25px;
+top: 50%;
+}
+.or::before {
+content: "";
+width: 175px;
+height: 1px;
+position: absolute;
+background-color: gray;
+right: 25px;
+top: 50%;
 }
