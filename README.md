@@ -1,6 +1,3 @@
-Here’s a **README.md** you can use (and edit) for your GitHub **Todo App project** with **Login/Signup, JWT, bcrypt, NProgress, and MongoDB**:
-
----
 
 # 📝 Todo App
 
@@ -112,12 +109,3 @@ Contributions are welcome!
 3. Commit your changes
 4. Push to your fork and submit a PR
 
----
-
-## 📜 License
-
-This project is licensed under the MIT License.
-
----
-
-👉 Do you want me to also add a **section with example API routes** (like `/api/auth/signup`, `/api/todos`) so contributors know how the backend endpoints are structured?
