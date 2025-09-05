@@ -9,20 +9,37 @@
 }
 
 .or::after {
-content: "";
-width: 175px;
-height: 1px;
-position: absolute;
-background-color: gray;
-left: 25px;
-top: 50%;
+  content: "";
+  width: 30px;
+  height: 1px;
+  position: absolute;
+  background-color: gray;
+  left: 25px;
+  top: 50%;
 }
 .or::before {
-content: "";
-width: 175px;
-height: 1px;
-position: absolute;
-background-color: gray;
-right: 25px;
-top: 50%;
+  content: "";
+  width: 30px;
+  height: 1px;
+  position: absolute;
+  background-color: gray;
+  right: 25px;
+  top: 50%;
+}
+
+
+
+@utility container {
+  padding-inline: 10px;
+  margin-inline: auto;
+
+  @variant sm {
+    padding-inline: 1px;
+  }
+
+  @variant lg {
+    padding-inline: 120px;
+  }
+
+
 }
