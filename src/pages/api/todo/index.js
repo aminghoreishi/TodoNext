@@ -49,8 +49,33 @@ const handler = async (req, res) => {
       return res.status(500).json({ message: error.message });
     }
   } else if (req.method === "GET") {
-    const todos = await todoModel.find({ user: findUser._id });
-    return res.json(todos);
+    const { page = 1, filter = "all" } = req.query;
+
+    const numberTodo = 5;
+
+    const skip = (page - 1) * numberTodo;
+
+    let filterQuery = {};
+
+    if (filter === "Com") {
+      filterQuery = { finish: true };
+    } else if (filter === "unCom") {
+      filterQuery = { finish: false };
+    }
+
+    const todos = await todoModel
+      .find({ user: findUser._id, ...filterQuery })
+      .skip(skip)
+      .limit(numberTodo);
+
+    const totalTodo = await todoModel.countDocuments({
+      user: findUser._id,
+      ...filterQuery,
+    });
+
+    const totalPages = Math.ceil(totalTodo / numberTodo);
+
+    return res.json({ todos, totalPages });
   } else {
     return res.status(405).json({ message: "متد غیرمجاز" });
   }

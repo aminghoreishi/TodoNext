@@ -14,6 +14,10 @@ const generationToken = async (data) => {
   return token;
 };
 
+const verifyPassword = async (password, hash) => {
+  const isValid = await compare(password, hash);
+  return isValid;
+};
 
 const verifyToekn = (token) => {
   try {
@@ -22,4 +26,4 @@ const verifyToekn = (token) => {
   } catch (error) {}
 };
 
-export  { hashPassword, generationToken , verifyToekn };
+export { hashPassword, generationToken, verifyToekn, verifyPassword };

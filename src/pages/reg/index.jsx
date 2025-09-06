@@ -5,9 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { SiFacebook } from "react-icons/si";
 import { useForm } from "react-hook-form";
 import Recaptcha from "../components/Recaptcha/Recaptcha";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { BeatLoader, ClipLoader } from "react-spinners";
 function SignUpPage() {
   const [eyeCheck, setEyeCheck] = useState(false);
 
@@ -15,27 +13,23 @@ function SignUpPage() {
 
   const route = useRouter();
 
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "all" });
 
-
-
   const onSubmit = async (data) => {
-     const res = await fetch("/api/auth/signUp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      console.log(res);
+    const res = await fetch("/api/auth/signUp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    console.log(res);
 
-      if (res.status === 200) {
-        route.replace("/");
-      }
-
+    if (res.status === 200) {
+      route.replace("/");
+    }
   };
 
   return (
@@ -144,13 +138,13 @@ function SignUpPage() {
                 <BeatLoader size={15} color="white" />
               </button>
             ) : ( */}
-              <button
-                className="bg-blue-500 p-2 w-full text-white cursor-pointer rounded-lg mt-5"
-                type="submit"
-                disabled={isLoginGoogle ? false : true}
-              >
-                SignUp
-              </button>
+            <button
+              className="bg-blue-500 p-2 w-full text-white cursor-pointer rounded-lg mt-5"
+              type="submit"
+              disabled={isLoginGoogle ? false : true}
+            >
+              SignUp
+            </button>
             {/* )} */}
           </div>
 
