@@ -15,7 +15,6 @@ function SignUpPage() {
 
   const route = useRouter();
 
-  //   const {data} = useQuery()
 
   const {
     register,
@@ -23,9 +22,10 @@ function SignUpPage() {
     formState: { errors },
   } = useForm({ mode: "all" });
 
-  const signUpMutation = useMutation({
-    mutationFn: async (data) => {
-      const res = await fetch("/api/auth/signUp", {
+
+
+  const onSubmit = async (data) => {
+     const res = await fetch("/api/auth/signUp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -36,27 +36,13 @@ function SignUpPage() {
         route.replace("/");
       }
 
-      const response = await res.json();
-
-      console.log(response);
-
-      return response;
-    },
-  });
-
-  const onSubmit = (data) => {
-    signUpMutation.mutate({
-      email: data.email,
-      userName: data.userName,
-      password: data.password,
-    });
   };
 
   return (
     <div className="flex items-center min-h-screen justify-center">
       <div className="p-2">
         <form
-          className="bg-white rounded-lg p-2 max-sm:w-[290px] max-md:w-[330px] md:w-[400px]"
+          className="bg-white dark:bg-slate-800 rounded-lg p-2 max-sm:w-[290px] max-md:w-[330px] md:w-[400px]"
           onSubmit={handleSubmit(onSubmit)}
         >
           <h1 className="text-center text-lg font-semibold">Sign Up</h1>
@@ -75,7 +61,7 @@ function SignUpPage() {
                 })}
                 type="text"
                 placeholder="Email"
-                className="border-2 text-sm outline-0 p-2 rounded-lg w-full border-gray-300"
+                className="border-2 dark:border-gray-500 text-sm outline-0 p-2 rounded-lg w-full border-gray-300"
               />
               {errors.email && (
                 <p className="text-red-700 text-xs font-semibold mt-1">
@@ -97,7 +83,7 @@ function SignUpPage() {
                 })}
                 type="text"
                 placeholder="Username"
-                className="border-2 text-sm outline-0 p-2 rounded-lg w-full border-gray-300"
+                className="border-2 dark:border-gray-500 text-sm outline-0 p-2 rounded-lg w-full border-gray-300"
               />
               {errors.userName && (
                 <p className="text-red-700 text-xs font-semibold mt-1">
@@ -120,7 +106,7 @@ function SignUpPage() {
                 })}
                 type={!eyeCheck ? "password" : "text"}
                 placeholder="Password"
-                className="border-2 pr-8 text-sm select-none outline-0 p-2 rounded-lg w-full border-gray-300"
+                className="border-2 pr-8 text-sm border-gray-500 select-none outline-0 p-2 rounded-lg w-full border-gray-300"
               />
               {errors.password && (
                 <p className="text-red-700 text-xs font-semibold mt-1">
@@ -149,7 +135,7 @@ function SignUpPage() {
           </div>
 
           <div>
-            {signUpMutation.isPending ? (
+            {/* {signUpMutation.isPending ? (
               <button
                 className="bg-blue-500 p-2 w-full text-white cursor-pointer rounded-lg mt-5"
                 type="submit"
@@ -157,7 +143,7 @@ function SignUpPage() {
               >
                 <BeatLoader size={15} color="white" />
               </button>
-            ) : (
+            ) : ( */}
               <button
                 className="bg-blue-500 p-2 w-full text-white cursor-pointer rounded-lg mt-5"
                 type="submit"
@@ -165,7 +151,7 @@ function SignUpPage() {
               >
                 SignUp
               </button>
-            )}
+            {/* )} */}
           </div>
 
           <div className="flex justify-center text-sm mt-2">
@@ -182,11 +168,11 @@ function SignUpPage() {
           </div>
 
           <div className="mt-3 flex flex-col gap-3">
-            <button className="flex relative items-center cursor-pointer justify-center border-2 p-2 rounded-lg border-gray-200 gap-x-2 w-full ">
+            <button className="flex relative items-center dark:border-gray-500 cursor-pointer justify-center border-2 p-2 rounded-lg border-gray-200 gap-x-2 w-full ">
               <FcGoogle size={20} className="absolute left-2" />
               <p className="text-sm">Login with Google</p>
             </button>
-            <button className="flex items-center relative cursor-pointer justify-center border-2 p-2 rounded-lg border-gray-200 gap-x-2 w-full ">
+            <button className="flex items-center relative dark:border-gray-500  cursor-pointer justify-center border-2 p-2 rounded-lg border-gray-200 gap-x-2 w-full ">
               <SiFacebook size={19} color="blue" className="absolute left-2" />
               <p className="text-sm">Login with Facebook</p>
             </button>

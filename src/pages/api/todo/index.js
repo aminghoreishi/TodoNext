@@ -48,6 +48,9 @@ const handler = async (req, res) => {
       console.error("Error creating todo:", error);
       return res.status(500).json({ message: error.message });
     }
+  } else if (req.method === "GET") {
+    const todos = await todoModel.find({ user: findUser._id });
+    return res.json(todos);
   } else {
     return res.status(405).json({ message: "متد غیرمجاز" });
   }

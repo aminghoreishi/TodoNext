@@ -1,20 +1,25 @@
 import mongoose from "mongoose";
 import userModel from "./user";
-const schema = mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+const schema = mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    finish: {
+      type: Boolean,
+      required: true,
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
-  finish: {
-    type: Boolean,
-    required: true,
-  },
-  user : {
-    type: mongoose.Types.ObjectId,
-    ref:'user',
-    required:true
+  {
+    timestamps: true, //* creat at and update
   }
-});
+);
 
 const todoModel = mongoose.models.todo || mongoose.model("todo", schema);
 
