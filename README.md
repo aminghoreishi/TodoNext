@@ -1,30 +1,31 @@
 # 📝 Todo List — Next.js + MongoDB
 
-[![Next.js](https://img.shields.io/badge/Next.js-14+-000000?logo=nextdotjs\&logoColor=white)](#)
+[![Next.js](https://img.shields.io/badge/Next.js-14%2B-000000?logo=nextdotjs\&logoColor=white)](#)
 [![React](https://img.shields.io/badge/React-18-149ECA?logo=react\&logoColor=white)](#)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-4EA94B?logo=mongodb\&logoColor=white)](#)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?logo=tailwindcss\&logoColor=white)](#)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?logo=tailwindcss\&logoColor=white)](#)
 [![Dark Mode](https://img.shields.io/badge/Dark%20Mode-supported-6C63FF)](#)
+[![Default Branch](https://img.shields.io/badge/Default%20Branch-master-blue)](#)
+[![Contrib](https://img.shields.io/badge/Contrib-Fork--Only-orange)](#-contributing-fork-only)
 
-A fast, SSR-enabled ✅ Todo app built with **Next.js (Pages Router)**, **MongoDB/Mongoose**, and a clean **Tailwind** UI. It supports auth, pagination, filtering, search, and create/update via a modal—optimized with React memoization for a snappy UX.
+
+A fast, SSR-enabled ✅ Todo app built with **Next.js (Pages Router)**, **MongoDB/Mongoose**, and a clean **Tailwind** UI. It supports authentication, pagination, filtering, client-side search, and create/update via a modal—optimized with React memoization for a snappy UX.
+
+> ℹ️ This README intentionally omits environment/configuration details (e.g., DB connection, auth secrets). Configure those in your own setup.
 
 ---
 
 ## ✨ Features
 
-* 🔐 **SSR + Auth**: `getServerSideProps` reads a `token` cookie, verifies it, and fetches the signed-in user’s todos.
-* 🧱 **CRUD**:
-
-  * ➕ Create (via modal)
-  * ✏️ Edit title (via modal)
-  * ✅ Toggle `finish`
-  * 🗑️ Delete
-* 📑 **Pagination** with page pills.
-* 🔎 **Filter & Search**: filter via query param; client-side title search for the current page.
-* 🌗 **Dark mode** (via `next-themes`).
-* ⚡ **Performance**: `useCallback`, `useMemo`, `React.memo` to reduce re-renders.
-* 🙅 **Empty states**: friendly messages when there are no todos or no search results.
-* 🆕 **Newest first**: supports sorting by `createdAt` so fresh todos appear top.
+* 🔐 **SSR + Auth** – `getServerSideProps` reads a token cookie, verifies the user, and fetches their todos.
+* 🧱 **CRUD**
+  ➕ Create (modal) • ✏️ Edit title (modal) • ✅ Toggle `finish` • 🗑️ Delete
+* 📑 **Pagination** with page chips.
+* 🔎 **Filter & Search** – server-side filter param + client-side title search (on the current page).
+* 🌗 **Dark mode** with `next-themes`.
+* ⚡ **Performance** – `useCallback`, `useMemo`, `React.memo`.
+* 🫧 **Empty states** – friendly messages for empty lists and zero search results.
+* 🆕 **Newest first** – supports `createdAt` sorting so fresh todos appear on top.
 
 ---
 
@@ -38,53 +39,39 @@ A fast, SSR-enabled ✅ Todo app built with **Next.js (Pages Router)**, **MongoD
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started (Local)
 
-### Prerequisites
+> Contributors must use **Fork → Pull Request** (see [Contributing](#-contributing-fork-only)).
 
-* Node.js 18+
-* MongoDB (local or Atlas)
-
-### Install
+### For Contributors (Fork-Only) ✅
 
 ```bash
-# clone
-git clone <your-repo-url>
-cd <your-repo-folder>
+# 1) Fork the repo on GitHub (UI)
 
-# install deps
+# 2) Clone YOUR fork
+git clone https://github.com/<your-username>/<repo>.git
+cd <repo>
+
+# 3) Link upstream (read-only for syncing)
+git remote add upstream https://github.com/OWNER/REPO.git
+
+# 4) Create a feature branch
+git checkout -b feat/your-change
+
+# 5) Install & run
 npm install
-# or
-yarn
-```
-
-### Environment Variables
-
-Create `.env.local`:
-
-```ini
-# Mongo
-MONGODB_URI=mongodb+srv://<user>:<pass>@<cluster>/<db>?retryWrites=true&w=majority
-
-# JWT / Auth (used by utils/auth.verifyToekn)
-JWT_SECRET=your-strong-secret
-```
-
-> Your auth flow should set a `token` cookie so `verifyToekn(token)` can identify the user on the server.
-
-### Run
-
-```bash
 npm run dev
 # http://localhost:3000
 ```
 
-### Build & Start
+### Build & Start (Production)
 
 ```bash
 npm run build
 npm start
 ```
+
+> Note: You’ll need to provide your own configuration (database/auth) before running.
 
 ---
 
@@ -115,16 +102,16 @@ npm start
 
 ---
 
-## 🔌 API Endpoints
+## 🔌 API Overview
 
 ### List Todos (paginated)
 
 ```
 GET /api/todo?page=<number>&filter=<all|...>
-Response: { todos: [...], totalPages: <number> }
+→ { todos: [...], totalPages: <number> }
 ```
 
-> **Tip:** sort newest first on the server:
+> Tip: Serve newest first in the list route:
 
 ```js
 // in /api/todo list route
@@ -135,22 +122,21 @@ const todos = await todoModel
   .limit(limit);
 ```
 
-### Create Todo
+### Create
 
 ```
 POST /api/todo
 Body: { "title": "My task", "finish": false }
 ```
 
-### Update Todo (finish or title)
+### Update (finish or title)
 
 ```
 PATCH /api/todo/:id
-Body: { "finish": true }      // toggle completion
-   or  { "title": "New title" }
+Body: { "finish": true }  OR  { "title": "New title" }
 ```
 
-### Delete Todo
+### Delete
 
 ```
 DELETE /api/todo/:id
@@ -158,54 +144,70 @@ DELETE /api/todo/:id
 
 ---
 
-## 🧱 Data Model
-
-Enable timestamps to make “newest first” trivial.
-
-```js
-// models/todo.js
-import mongoose from "mongoose";
-
-const TodoSchema = new mongoose.Schema(
-  {
-    title:   { type: String, required: true },
-    finish:  { type: Boolean, default: false },
-    user:    { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  },
-  { timestamps: true } // createdAt, updatedAt
-);
-
-export default mongoose.models.Todo || mongoose.model("Todo", TodoSchema);
-```
-
----
-
 ## 🖼️ UI/UX Notes
 
-* **Modal** handles both **Create** and **Edit**:
+* Modal supports **Create** and **Edit** with `mode: "create" | "edit"`, `id`, and `initialTitle`.
+* Client-side search filters the **current page** only; implement server-side search if you need global results.
+* Empty states include:
 
-  * `mode: "create" | "edit"`
-  * `id` + `initialTitle` for editing
-* **Search** is client-side (current page only). For global search, pass `search` to the API and filter server-side.
-* **Empty states**:
-
-  * No todos: *“You have no todos yet.”*
-  * No results for a query: *“No results found for “{query}”* + **Clear search** button.
-* **Optimizations**:
-
-  * `useCallback` for `getAllTodoFunc`
-  * `useMemo` for rendering lists
-  * `React.memo` on containers/modal
+  * “You have no todos yet.”
+  * “No results found for “{query}” + a **Clear search** button.
 
 ---
 
-## ✅ Roadmap
+## 🤝 Contributing (Fork-Only)
 
-* 🔍 Server-side search (`search` query param)
-* 🧩 Optimistic UI on create/edit
-* 🧪 Tests (unit/e2e)
-* 🌍 i18n (English/Persian)
-* 🧰 Bulk actions (multi-select toggle/delete)
+[![Contrib](https://img.shields.io/badge/Contrib-Fork--Only-orange)](#)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#)
+
+We accept changes **only via Fork + Pull Request**.
+Direct pushes are not allowed. All PRs must target the **`master`** branch.
+
+**Workflow**
+
+1. Fork this repo.
+2. Clone your fork:
+
+   ```bash
+   git clone https://github.com/<your-username>/<repo>.git
+   cd <repo>
+   git remote add upstream https://github.com/OWNER/REPO.git
+   ```
+3. Create a branch:
+
+   ```bash
+   git checkout -b feat/your-change
+   ```
+4. Commit & push **to your fork**:
+
+   ```bash
+   git commit -m "feat: describe your change"
+   git push origin feat/your-change
+   ```
+5. Open a Pull Request against `OWNER/REPO` → **`master`**.
+6. Keep in sync:
+
+   ```bash
+   git fetch upstream
+   git rebase upstream/master
+   ```
+
+---
+
+## 🗺️ Roadmap
+
+* Server-side search (`search` query param)
+* Optimistic UI on create/edit
+* Tests (unit/e2e)
+* i18n (English/Persian)
+* Bulk actions (multi-select toggle/delete)
+
+---
+
+## 📄 License
+
+MIT — use it freely.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
 ---
 
