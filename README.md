@@ -49,7 +49,7 @@ A fast, SSR-enabled ✅ Todo app built with **Next.js (Pages Router)**, **MongoD
 # 1) Fork the repo on GitHub (UI)
 
 # 2) Clone YOUR fork
-git clone https://github.com/<your-username>/<repo>.git
+git clone https://github.com/aminghoreishi/https://github.com/aminghoreishi/TodoNext.git
 cd <repo>
 
 # 3) Link upstream (read-only for syncing)
